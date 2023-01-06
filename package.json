@@ -1,0 +1,17 @@
+{
+  "name": "wspad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@types/web": "^0.0.84",
+    "cash-dom": "8.1.2"
+  },
+  "scripts": {
+    "dev": "tsc && esbuild dist/main.js --bundle --outfile=priv/_main.js && gmake -j8 run",
+    "test": "echo \"Hahahah tests...  Good one!\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
