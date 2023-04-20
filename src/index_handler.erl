@@ -3,7 +3,6 @@
 
 -export([init/2]).
 -export([terminate/3]).
--export([execute/2]).
 
 init(#{method := Method} = Req, State) ->
     case cowboy_req:method(Req) of
@@ -37,6 +36,3 @@ index() ->
 
 terminate(_Reason, _Req, _State) ->
     ok.
-
-execute(Req, Env) ->
-    {ok, Req, Env}.

@@ -18,6 +18,7 @@ _build
 rebar3.crashdump
 *~
 node_modules
+dist
 .vscode
 .metals
 .tool-versions

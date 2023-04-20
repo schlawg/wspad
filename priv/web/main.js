@@ -1151,7 +1151,7 @@
   window.onload = init;
   function init() {
     (0, import_cash_dom.default)("#text").on("input", (e) => {
-      send(e.target.innerHTML);
+      send(e.target.value);
     });
     connect();
   }
@@ -1169,7 +1169,7 @@
     websocket.send(text);
   }
   function onMessage(e) {
-    (0, import_cash_dom.default)("#text")[0].innerHTML = e.data;
+    (0, import_cash_dom.default)("#text")[0].value = e.data;
   }
   function onError(e) {
     console.log(e);
