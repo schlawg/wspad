@@ -5,8 +5,6 @@
 
 db_loc() ->
   case code:priv_dir(wspad) of
-    {error, bad_name} ->
-      error({badarg, "Can't resolve private dir of wspad"});
     Dir -> Dir ++ "/db"
   end.
 
@@ -20,7 +18,7 @@ db_loc(Name) -> if
 end.
 
 asset() ->
-  code:priv_dir(wspad).
+  code:priv_dir(wspad) ++ "/web".
 
 asset(Name) -> if
   is_list(Name) ->

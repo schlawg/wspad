@@ -1,0 +1,17 @@
+{application, wspad,
+ [{description, "An OTP application"},
+  {vsn, "0.0.1"},
+  {registered, []},
+  {mod, {wspad_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    bbmustache,
+    cowboy
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["Apache-2.0"]},
+  {links, []}
+ ]}.
