@@ -10,9 +10,10 @@
   },
   "scripts": {
     "compile": "tsc && esbuild dist/main.js --bundle --outfile=priv/web/main.js",
-    "dev": "pnpm compile && gmake -j8 run"
+    "dev": "pnpm compile && rebar3 shell --apps wspad",
+    "image": "rm -rf priv/db/* _build && pnpm compile && rebar3 as prod release && docker build -t schlawg/wspad . && docker image prune -f"
   },
-  "keywords": [],
+  "keywords": [ ],
   "author": "",
   "license": "ISC"
 }

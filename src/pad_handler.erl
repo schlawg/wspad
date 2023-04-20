@@ -6,7 +6,6 @@
 -export([terminate/3]).
 
 init(Req, State) ->
-    logger:alert("Req = ~p", [Req]),
     case cowboy_req:method(Req) of
         <<"GET">> -> get(Req, State);
         <<"POST">> -> post(Req, State);
