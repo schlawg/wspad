@@ -1,32 +1,53 @@
-import $ from 'cash-dom';
+let ws: WebSocket;
+let editor: HTMLTextAreaElement;
+let pingTimeout: number;
 
-var websocket: WebSocket;
-window.onload = init;
-function init() {
-  $('#text').on('input', (e: any) => {
+window.onload = () => {
+  editor = document.querySelector('#text') as HTMLTextAreaElement;
+  editor.oninput = (e: any) => {
     send(e.target.value);
-  });
-  connect();
-}
-function connect() {
-  const wsHost = 'ws://' + window.location.host + '/_ws' + window.location.pathname;
-  websocket = new WebSocket(wsHost);
-  websocket.onmessage = function (evt) {
-    onMessage(evt);
   };
-  websocket.onerror = function (evt) {
-    onError(evt);
+  connect();
+};
+
+function connect() {
+  ws = new WebSocket(`ws://${window.location.host}/_ws${window.location.pathname}`);
+  ws.binaryType = 'arraybuffer';
+  ws.onopen = e => {
+    editor.disabled = false;
+  };
+  ws.onmessage = function (e) {
+    if (typeof e.data !== 'string') return; // pong
+    onMessage(e);
+    schedulePing();
+  };
+  ws.onclose = e => {
+    editor.disabled = true;
+    clearTimeout(pingTimeout);
+    setTimeout(connect, 5000);
+  };
+  ws.onerror = function (e) {
+    editor.disabled = true;
+    onError(e);
   };
 }
 
-function send(text: string) {
-  websocket.send(text);
+function schedulePing() {
+  clearTimeout(pingTimeout);
+  if (ws.readyState !== WebSocket.OPEN) ws.close();
+  else
+    pingTimeout = setTimeout(() => {
+      ws.send(new Int32Array(1));
+      schedulePing();
+    }, 30000);
 }
-function disconnect() {
-  websocket.close();
+function send(text: string) {
+  ws.send(text);
+  schedulePing();
 }
 function onMessage(e: any) {
-  ($('#text')[0] as HTMLTextAreaElement).value = e.data;
+  editor.value = e.data;
+  schedulePing();
 }
 
 function onError(e: any) {

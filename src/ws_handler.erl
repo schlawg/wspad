@@ -17,7 +17,9 @@ websocket_init(S = {_, Name}) ->
 
 websocket_handle({text, Pad}, S = {_, Name}) ->
     global:send(app, {updateAll, Name, Pad, self()}),
-    {[], S}.
+    {[], S};
+websocket_handle(_Data, S) ->
+    {reply, _Data, S}.
 
 websocket_info({update, Pad}, S) ->
     {reply, {text, Pad}, S}.
